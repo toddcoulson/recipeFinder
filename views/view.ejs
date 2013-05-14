@@ -1,0 +1,34 @@
+<h1><%= title %></h1> 
+  <p>
+    <span>
+      
+        <%= recipe.fn %>
+		
+		<% if (typeof(recipe.instructions) != "undefined") {%>
+			<%= recipe.instructions  %>
+		<% } %><br/>
+		<% if (typeof(recipe.yield) != "undefined") {%>
+			<%= recipe.yield %>
+		<% } %><br/>
+		<% if (typeof(recipe.duration) != "undefined") {%>
+			<%= recipe.duration %>
+		<% } %><br/>
+		<!--upload image here>add photo</upload><add image location></add image location-->
+		<!--upload video here>add photo</upload><add video location></add video location-->
+		<% if (typeof(recipe.summary) != "undefined") {%>
+			<%= recipe.summary %>
+		<% } %><br/>
+		<% if (typeof(recipe.published) != "undefined") {%>
+			<%= recipe.published %>
+		<% } %><br/>
+		<% if (typeof(recipe.tag) != "undefined") {%>
+			<%= recipe.tag %>
+		<% } %><br/>
+		<% if (typeof(recipe.rating) != "undefined") {%>
+			<%= recipe.rating %>
+		<% } %><br/>
+      
+        <a href="/" title="return">Return to Recipe List</a>
+      
+    </span> 
+  </p>

@@ -1,0 +1,28 @@
+<h1><%= title %></h1>
+<form action="/create" method="post" accept-charset="utf-8">
+  <input type="text" name="content" />
+</form>
+ 
+<% recipes.forEach( function( recipe ){ %>
+  <p>
+    <span>
+      
+      <form action="/update/<%= recipe._id %>" method="post" accept-charset="utf-8">
+        Recipe Name:<input type="text" name="content" value="<%= recipe.fn %>" />
+		Instructions:<input type="text" name="instructions" value="<%= recipe.instructions %>" />
+		Yield:<input type="text" name="yield" value="<%= recipe.yield %>" />
+		Duration:<input type="text" name="duration" value="<%= recipe.duration %>" />
+		photo: <!--upload image here>add photo</upload><add image location></add image location-->
+		video: <!--upload video here>add photo</upload><add video location></add video location-->
+		summary:<input type="text" name="summary" value="<%= recipe.summary %>" />
+		published:<input type="text" name="published" value="<%= recipe.published %>" />
+		tag:<input type="text" name="tag" value="<%= recipe.tag %>" />
+		rating:<input type="text" name="rating" value="<%= recipe.rating %>" />
+	  </form>
+      
+        <a href="/edit/<%= recipe._id %>" title="Update this recipe item"><%= recipe.fn %></a>
+      
+    </span>
+    
+  </p>
+<% }); %>
