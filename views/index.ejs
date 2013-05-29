@@ -1,16 +1,18 @@
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 <h1><%= title %></h1>
 <a href="/createRecipe">Create New Recipe</a>
 // use a loop to show all recipe items at the very bottom.
 <% recipes.forEach( function ( recipe ){ %>
   <p>
 	<span>
-      <a href="/view/<%= recipe._id %>" title="View full recipe item"><%= recipe.fn %></a>
+      <i class="icon-eye-open"></i><a href="/view/<%= recipe._id %>" title="View full recipe item"><%= recipe.fn %><img src='<%= recipe.images[0].url%>'/></a>
     </span>
     <span>
-      <a href="/edit/<%= recipe._id %>" title="Update this recipe item">Edit</a>
+      <i class="icon-edit"></i><a href="/edit/<%= recipe._id %>" title="Update this recipe item">Edit</a>
     </span>
     <span>
-      <a href="/destroy/<%= recipe._id %>" title="Delete this recipe item">Delete</a>
+      <i class="icon-trash"></i><a href="/destroy/<%= recipe._id %>" title="Delete this recipe item">Delete</a>
     </span>
   </p>
 <% }); %>

@@ -4,7 +4,11 @@
  */
 var mongoose=require('mongoose');
 var Recipe = mongoose.model('Recipe');
+var Image = mongoose.model('Image');
 var utils    = require( 'connect' ).utils;
+var fs = require('fs');
+var util = require('util');
+var im = require("imagemagick");
 
 exports.index = function(req, res, next){
 	Recipe.find().
@@ -23,20 +27,42 @@ exports.createRecipe = function(req, res){
 
 exports.create = function(req, res){
 	
-	var r = new Recipe({
-		fn: req.body.fn,
-		instructions: req.body.instructions,
-		yield: req.body.yield,
-		duration: req.body.duration,
-		summary: req.body.summary,
-		published: req.body.published,
-		tag: req.body.tag,
-		rating: req.body.rating,
-		updated_at: Date.now()
-	}).save(function(err, recipe, count){
-		res.redirect('/');
-	});
-	console.log(r);
+	var combinePath = __dirname + '/../public/images/' + req.files.recipeImage.filename;
+	ins = fs.createReadStream(req.files.recipeImage.path);
+      ous = fs.createWriteStream(combinePath);
+      util.pump(ins, ous, function(err) {
+        if(err) {
+		console.log(err);
+		console.log("combinePath:"+combinePath);
+          res.redirect('/createRecipe');
+        } else {
+			var r = new Recipe({fn: req.body.fn, images: [new Image({url:"/images/"+req.files.recipeImage.filename})], updated_at: Date.now()});
+			if(req.body.instructions != "") r.instructions = req.body.instructions;
+			if(req.body.yield != "") r.yield = req.body.yield;
+			if(req.body.duration != "") r.duration = req.body.duration;
+			if(req.body.summary != "") r.summary = req.body.summary;
+			if(req.body.published != "") r.published = req.body.published;
+			if(req.body.tag != "") r.tag = req.body.tag;
+			if(req.body.rating != "") r.rating = req.body.rating;
+			r.save(function(err, recipe, count){
+			var beginName = req.files.recipeImage.filename.replace(/\.[^/.]+$/, "");
+			/*console.log(__dirname + '..\\public\\images\\'+req.files.recipeImage.filename);
+			console.log(__dirname + '..\\public\\images\\'+beginName+"-small.jpg");
+			console.log(__dirname + '\\..\\public\\images\\'+req.files.recipeImage.filename);
+			console.log(__dirname + '\\..\\public\\images\\'+beginName+"-small.jpg");
+			im.resize({
+			  srcPath: __dirname + '\\..\\public\\images\\'+req.files.recipeImage.filename,
+			  dstPath: __dirname + '\\..\\public\\images\\'+beginName+"-small.jpg",
+			  width:   256
+			}, function(err, stdout, stderr){
+			  if (err) throw err;
+			  console.log('resized kittens.jpg to fit within 256x256px');
+			});	*/
+			
+				res.redirect('/');
+			});
+        }
+      });
 };
 
 exports.destroy = function (req, res){
@@ -52,13 +78,11 @@ exports.destroy = function (req, res){
 
 exports.edit = function (req, res){
 	Recipe.
-		find().
-		sort('-updated_at').
-		exec(function(err, recipes){
+		findById(req.params.id, function(err, recipe){
 			if( err ) return next( err );
 			res.render('edit', {
 				title: 'Recipe Finder Example',
-				recipes: recipes,
+				recipe: recipe,
 				current: req.params.id
 			});
 		});

@@ -23,7 +23,7 @@ app.configure(function(){
   app.set('view engine', 'ejs');
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({uploadDir: __dirname + '/public/images',keepExtensions: true}));
   app.use(express.methodOverride());
   app.use(express.cookieParser()); 
   app.use(express.session({ secret: 'keyboard cat' }));
@@ -44,12 +44,12 @@ app.configure( 'production', function (){
 });
 
 app.get('/', routes.index);
-app.get('/createRecipe', ensureAuthenticated, routes.createRecipe);
-app.post('/create', ensureAuthenticated, routes.create);
-app.get('/destroy/:id', ensureAuthenticated, routes.destroy);
-app.get( '/edit/:id', ensureAuthenticated, routes.edit );
-app.get( '/view/:id', ensureAuthenticated, routes.view );
-app.post( '/update/:id', ensureAuthenticated, routes.update );
+app.get('/createRecipe', routes.createRecipe);
+app.post('/create', routes.create);
+app.get('/destroy/:id', routes.destroy);
+app.get( '/edit/:id', routes.edit );
+app.get( '/view/:id', routes.view );
+app.post( '/update/:id', routes.update );
 app.get( '/register', function(req, res){
 	 res.render('register', { });
 } );

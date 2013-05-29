@@ -44,7 +44,7 @@ var Recipe = new Schema({
 	additionalInstructions: {type:String},
     yield: {type: String},
     duration: {type:String},
-    photos: [Image],
+    images: [Image],
     video: [Video],
     summary: {type:String},
     author: [User],
@@ -69,7 +69,7 @@ User.methods.validPassword = function (password) {
   }
 }
 
-console.log(Recipe);
+mongoose.model("Image", Image);
 mongoose.model("Recipe", Recipe);
 mongoose.model("User", User);
 mongoose.connect('mongodb://localhost/recipeFinder');
