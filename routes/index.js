@@ -5,10 +5,12 @@
 var mongoose=require('mongoose');
 var Recipe = mongoose.model('Recipe');
 var Image = mongoose.model('Image');
+var Ingredient = mongoose.model('Ingredient');
 var utils    = require( 'connect' ).utils;
 var fs = require('fs');
 var util = require('util');
-var im = require("imagemagick");
+var im = require('imagemagick');
+//var jquery = require('jquery');
 
 exports.index = function(req, res, next){
 	Recipe.find().
@@ -39,6 +41,13 @@ exports.create = function(req, res){
 			var r = new Recipe({fn: req.body.fn, images: [new Image({url:"/images/"+req.files.recipeImage.filename})], updated_at: Date.now()});
 			if(req.body.instructions != "") r.instructions = req.body.instructions;
 			if(req.body.yield != "") r.yield = req.body.yield;
+			console.log(req.body);
+			r.ingredients = [];
+			for(var i = 0; i<req.body.value.length; i++){
+				var ing = new Ingredient({value: req.body.value[i], unit: req.body.unit[i], ingredient: req.body.ingredient[i]});
+				r.ingredients.push(ing);
+			}
+			
 			if(req.body.duration != "") r.duration = req.body.duration;
 			if(req.body.summary != "") r.summary = req.body.summary;
 			if(req.body.published != "") r.published = req.body.published;
@@ -46,13 +55,11 @@ exports.create = function(req, res){
 			if(req.body.rating != "") r.rating = req.body.rating;
 			r.save(function(err, recipe, count){
 			var beginName = req.files.recipeImage.filename.replace(/\.[^/.]+$/, "");
-			/*console.log(__dirname + '..\\public\\images\\'+req.files.recipeImage.filename);
-			console.log(__dirname + '..\\public\\images\\'+beginName+"-small.jpg");
-			console.log(__dirname + '\\..\\public\\images\\'+req.files.recipeImage.filename);
-			console.log(__dirname + '\\..\\public\\images\\'+beginName+"-small.jpg");
-			im.resize({
-			  srcPath: __dirname + '\\..\\public\\images\\'+req.files.recipeImage.filename,
-			  dstPath: __dirname + '\\..\\public\\images\\'+beginName+"-small.jpg",
+			//console.log('../public/images/'+req.files.recipeImage.filename);
+			//console.log('../public/images/'+beginName+"-small.jpg");
+			/*im.resize({
+			  srcPath: req.files.recipeImage.filename,
+			  dstPath: beginName+"-small.jpg",
 			  width:   256
 			}, function(err, stdout, stderr){
 			  if (err) throw err;
@@ -62,7 +69,7 @@ exports.create = function(req, res){
 				res.redirect('/');
 			});
         }
-      });
+    });
 };
 
 exports.destroy = function (req, res){

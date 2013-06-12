@@ -4,6 +4,10 @@
       
         <%= recipe.fn %>
 		
+		<% recipe.ingredients.forEach( function ( ingredient ){ %>
+			<%= ingredient.value %> <%= ingredient.unit %> <%= ingredient.ingredient %>
+		<% }); %>
+		
 		<% if (typeof(recipe.instructions) != "undefined") {%>
 			<%= recipe.instructions  %><br/>
 		<% } %>

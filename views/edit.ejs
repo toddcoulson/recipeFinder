@@ -5,19 +5,30 @@
       
       <form action="/update/<%= recipe._id %>" method="post" accept-charset="utf-8"method="post" enctype="multipart/form-data">
         Recipe Name:<input type="text" name="content" value="<%= recipe.fn %>" /><br />
-		Instructions:<input type="text" name="instructions" value="<%= recipe.instructions %>" /><br />
-		Yield:<input type="text" name="yield" value="<%= recipe.yield %>" /><br />
-		Duration:<input type="text" name="duration" value="<%= recipe.duration %>" /><br />
+		<% recipe.ingredients.forEach( function ( ingredient ){ %>
+			<div class="newIngredient"><hr />
+amount:<input type="text" name="value" value="<%= ingredient.value %>"/> | 
+unit of measure:<input type="text" name="unit"  value="<%= ingredient.unit %>"/> | 
+ingredient:<input type="text" name="ingredient"  value="<%= ingredient.ingredient %>"/>
+<a href="javascript:void(0);" class="removeIngredient">delete ingredient</a>
+<hr /></div>
+		
+			  
+		<% }); %>
+		
+		Instructions:<input type="text" name="instructions" value="<% if (typeof(recipe.instructions) != "undefined") {%><%= recipe.instructions %><% } %>" /><br />
+		Yield:<input type="text" name="yield" value="<% if (typeof(recipe.yield) != "undefined") {%><%= recipe.yield %><% } %>" /><br />
+		Duration:<input type="text" name="duration" value="<% if (typeof(recipe.duration) != "undefined") {%><%= recipe.duration %><% } %>" /><br />
 		photo: <!--upload image here>add photo</upload><add image location></add image location--><br />
 		video: <!--upload video here>add photo</upload><add video location></add video location--><br />
-		summary:<input type="text" name="summary" value="<%= recipe.summary %>" /><br />
-		published:<input type="text" name="published" value="<%= recipe.published %>" /><br />
-		tag:<input type="text" name="tag" value="<%= recipe.tag %>" /><br />
-		rating:<input type="text" name="rating" value="<%= recipe.rating %>" /><br />
+		summary:<input type="text" name="summary" value="<% if (typeof(recipe.summary) != "undefined") {%><%= recipe.summary %><% } %>" /><br />
+		published:<input type="text" name="published" value="<% if (typeof(recipe.published) != "undefined") {%><%= recipe.published %><% } %>" /><br />
+		tag:<input type="text" name="tag" value="<% if (typeof(recipe.tag) != "undefined") {%><%= recipe.tag %><% } %>" /><br />
+		rating:<input type="text" name="rating" value="<% if (typeof(recipe.rating) != "undefined") {%><%= recipe.rating %><% } %>" /><br />
 	  </form>
       
-        <a href="/edit/<%= recipe._id %>" title="Update this recipe item"><%= recipe.fn %></a>
-      
+        <a href="/edit/<%= recipe._id %>" title="Update this recipe item"><%= recipe.fn %></a><br />
+      <a href="/" title="return">Return to Recipe List</a>
     </span>
     
   </p>

@@ -1,7 +1,22 @@
 <h1><%= title %></h1>
-<br />
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="../javascripts/jquery.view.ejs.js"></script>
+<script>
+	$(function() {
+		$("#addIngredient").click(function(){
+			$(this).after("/views/addIngredient.ejs",{});
+			$(".removeIngredient").click(function(){
+				console.log($(this).parent())
+				$(this).parent().remove()
+			});
+		});
+		
+	});
+</script>
 <form action="/create" method="post" accept charset="utf-8"method="post" enctype="multipart/form-data">
 	Recipe Name:<input type="text" name="fn" /><br />
+	<a href="javascript:void(0)" id="addIngredient">add ingredient</a>
 	Instructions:<input type="text" name="instructions" /><br />
 	Yield:<input type="text" name="yield" /><br />
 	Duration:<input type="text" name="duration" /><br />

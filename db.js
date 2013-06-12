@@ -17,12 +17,12 @@ var Video = new Schema({
     url: { type: String, required: true }
 });
 
-var Nutrition = new mongoose.Schema({
+var Nutrition = new Schema({
     value: { type: String },
     unit: { type: String },
     nutrition: { type: String }
 });
-var Ingredient = new mongoose.Schema({
+var Ingredient = new Schema({
     value: { type: String },
     unit: { type: String },
     ingredient: { type: String }
@@ -70,6 +70,7 @@ User.methods.validPassword = function (password) {
 }
 
 mongoose.model("Image", Image);
+mongoose.model("Ingredient", Ingredient);
 mongoose.model("Recipe", Recipe);
 mongoose.model("User", User);
 mongoose.connect('mongodb://localhost/recipeFinder');
