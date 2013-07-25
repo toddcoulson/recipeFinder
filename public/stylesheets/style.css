@@ -1,8 +1,139 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+
 
 a {
   color: #00B7FF;
 }
+
+h1 {
+  font: 400 39px/1.0 'Arvo', Georgia, Times, serif;
+}
+ 
+body{
+  font: 400 16px/1.6 'PT Sans', Helvetica, Arial, sans-serif;
+}
+
+.siteButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #c20000;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #c20000;
+	box-shadow:inset 0px 1px 0px 0px #c20000;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #c94545), color-stop(1, #fc4444) );
+	background:-moz-linear-gradient( center top, #c94545 5%, #fc4444 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c94545', endColorstr='#fc4444');
+	background-color:#c94545;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #292929;
+	display:inline-block;
+	color:#f2eaec;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #750000;
+}.siteButton:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #fc4444), color-stop(1, #c94545) );
+	background:-moz-linear-gradient( center top, #fc4444 5%, #c94545 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fc4444', endColorstr='#c94545');
+	background-color:#fc4444;
+}.siteButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+/*  SECTIONS  ============================================================================= */
+
+.section {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+/*  GROUPING  ============================================================================= */
+
+
+.group:before,
+.group:after {
+    content:"";
+    display:table;
+}
+.group:after {
+    clear:both;
+}
+.group {
+    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+}
+
+/*  GRID COLUMN SETUP   ==================================================================== */
+
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+
+.col:first-child { margin-left: 0; } /* all browsers except IE6 and lower */
+
+
+/*  REMOVE MARGINS AS ALL GO FULL WIDTH AT 480 PIXELS */
+
+@media only screen and (max-width: 480px) {
+	.col { 
+		margin: 1% 0 1% 0%;
+	}
+}
+
+.span_3_of_3 {
+	width: 100%; 
+}
+
+.span_2_of_3 {
+	width: 66.1%; 
+}
+
+.span_1_of_3 {
+	width: 32.2%; 
+}
+
+
+/*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+@media only screen and (max-width: 480px) {
+	.span_3_of_3 {
+		width: 100%; 
+	}
+	.span_2_of_3 {
+		width: 100%; 
+	}
+	.span_1_of_3 {
+		width: 100%;
+	}
+}
+
+/*  GRID OF TWO   ============================================================================= */
+.span_2_of_2 {
+	width: 100%;
+}
+
+.span_1_of_2 {
+	width: 49.2%;
+}
+
+/*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+@media only screen and (max-width: 480px) {
+	.span_2_of_2 {
+		width: 100%; 
+	}
+	.span_1_of_2 {
+		width: 100%; 
+	}
+}
+
+img {
+width:100px;
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}
+

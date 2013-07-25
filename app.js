@@ -3,24 +3,25 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , flash = require('connect-flash')
-  , db = require('./db')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path')
-  , passport = require('passport')
-  , util = require('util')
-  , LocalStrategy = require('passport-local').Strategy;
-  
+var express = require('express'),
+    flash = require('connect-flash'),
+    db = require('./db'),
+    routes = require('./routes'),
+    user = require('./routes/user'),
+    http = require('http'),
+    path = require('path'),
+    passport = require('passport'),
+    util = require('util'),
+    LocalStrategy = require('passport-local').Strategy;
+  gUsername = "";
 
 var app = express();
 
-app.configure(function(){
+app.configure(function () {
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+  
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser({uploadDir: __dirname + '/public/images',keepExtensions: true}));
@@ -43,27 +44,38 @@ app.configure( 'production', function (){
   app.use( express.errorHandler());
 });
 
-app.get('/', routes.index);
-app.get('/createRecipe', routes.createRecipe);
-app.post('/create', routes.create);
-app.get('/destroy/:id', routes.destroy);
-app.get( '/edit/:id', routes.edit );
-app.get( '/view/:id', routes.view );
-app.post( '/update/:id', routes.update );
-app.get( '/register', function(req, res){
+app.get('/index', ensureAuthenticated, routes.index);
+app.get('/createRecipe', ensureAuthenticated, routes.createRecipe);
+app.post('/create', ensureAuthenticated, routes.create);
+app.get('/destroy/:id', ensureAuthenticated, routes.destroy);
+app.get( '/edit/:id', ensureAuthenticated, routes.edit );
+app.get( '/view/:id', ensureAuthenticated, routes.view );
+app.post( '/update/:id', ensureAuthenticated, routes.update );
+app.get( '/register', ensureAuthenticated, function(req, res){
 	 res.render('register', { });
 } );
-app.post( '/register', user.register );
+app.post( '/register', ensureAuthenticated, user.register );
 
-app.get('/login', function(req, res){
+app.post('/ajax/:search', ensureAuthenticated, routes.search);
+/*function (req, res){
+
+   console.log(req.body);
+   res.contentType('json');
+   console.log(JSON.stringify({response:'json'}));
+   res.write(JSON.stringify({response:'json'}));
+   res.end();
+
+ });*/
+
+app.get('/', function(req, res){
   res.render('login', { user: req.user});
 });
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/', 
-		failureRedirect: '/login', 
+app.post('/login', passport.authenticate('local', { successRedirect: '/index', 
+		failureRedirect: '/', 
 		failureFlash: true }), 
 		function(req, res) {
-			res.redirect('/');
+			res.redirect('/index');
 		});
 
 http.createServer(app).listen(app.get('port'), function(){
@@ -92,7 +104,7 @@ passport.deserializeUser(function(id, done) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  res.redirect('/')
 }
 
 

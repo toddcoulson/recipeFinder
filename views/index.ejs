@@ -1,8 +1,81 @@
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+<script src="/javascripts/knockout.js"></script>
+<link href="http://fonts.googleapis.com/css?family=Arvo" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    
+	var viewModel = {
+        showSearch: ko.observable(false)
+    };
+	
+$(function(){
+	
+	
+	function MyViewModel() {
+		 this.recipes = [
+			 { fn: 'Franklin', description: '250' },
+			 { fn: 'Mario', description: '5800' }
+		 ]
+	 }
+ var myViewModel = new MyViewModel();
+ //ko.applyBindings(myViewModel);
+	
+	
+
+
+   $('#submitSearch').click(function(){ 
+	console.log("clicked");
+    $.ajax({ 
+               url: '/ajax/'+$('input[name=search]').val()
+             , type: 'POST'
+             , cache: false
+             , complete: function() {
+             //called when complete
+                 console.log('process complete');
+             },
+			
+             success: function(data) {
+
+				 viewModel.showSearch(true);
+				myViewModel.recipes = data; 
+              },
+
+             error: function() {
+                console.log('process error');
+              },
+           });
+         });            
+});
+  </script>
 <h1><%= title %></h1>
+<!--search:<input type="text" name="search" /><div id="submitSearch" class="siteButton" title="return">Search</div>
+		<br />-->
+
 <a href="/createRecipe">Create New Recipe</a>
-// use a loop to show all recipe items at the very bottom.
+
+<div id='searchResults' data-bind="visible: showSearch">
+    <div data-bind="template: { name: 'recipe-template', foreach: recipes }"></div>
+</div>
+
+<script type="text/html" id="recipe-template">
+<div data-bind="foreach: recipes">
+
+	<span>
+	<i class="icon-edit"></i><a data-bind="attr: { href: "/view/"+_id, title: "View full recipe item"},text : fn"><img data-bind="attr: {src:images[0].url}"></a>
+    </span>
+    <span>
+      <i class="icon-edit"></i><a data-bind="attr: { href: "/edit/"+_id, title: "Update this recipe item"}">Edit</a>
+    </span>
+    <span>
+      <i class="icon-trash"></i><a data-bind="attr: { href: "/destroy/"+_id, title: "Delete this recipe item"}">Delete</a>
+    </span>
+  </div>
+</script>
 <% recipes.forEach( function ( recipe ){ %>
   <p>
 	<span>

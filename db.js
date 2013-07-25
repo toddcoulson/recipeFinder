@@ -48,6 +48,7 @@ var Recipe = new Schema({
     video: [Video],
     summary: {type:String},
     author: [User],
+	username:{type:String},
     published: {type:String},
     nutrition: [Nutrition],
     tag:{type:String},
@@ -73,4 +74,5 @@ mongoose.model("Image", Image);
 mongoose.model("Ingredient", Ingredient);
 mongoose.model("Recipe", Recipe);
 mongoose.model("User", User);
-mongoose.connect('mongodb://localhost/recipeFinder');
+mongoose.connect('mongodb://nodejitsu:364b75cdf88539293972edf3b5b9feaa@dharma.mongohq.com:10042/nodejitsudb6237205951');
+//mongoose.connect('mongodb://localhost/recipeFinder');

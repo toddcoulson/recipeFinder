@@ -13,7 +13,8 @@ var im = require('imagemagick');
 //var jquery = require('jquery');
 
 exports.index = function(req, res, next){
-	Recipe.find().
+
+	Recipe.find().where('username').equals(gUsername).
 	sort('-updated_at').
 	exec(function(err, recipes, count){
 		if( err ) return next( err );
@@ -21,6 +22,23 @@ exports.index = function(req, res, next){
 	})
   
 };
+
+exports.search = function(req, res, next){
+var param=req.params.search;
+console.log(param);
+	Recipe.find({"fn":new RegExp(param)}).
+	sort('-updated_at').
+	exec(function(err, recipes, count){
+		if( err ) return next( err );
+		//res.render('index', { title: 'Recipe Finder Index', recipes:recipes });
+		res.contentType('json');
+		console.log(JSON.stringify({recipes:recipes}));
+		res.write(JSON.stringify({recipes:recipes}));
+		res.end();
+	})
+  
+};
+
 exports.createRecipe = function(req, res){
 	res.render('createRecipe', {
 		title: 'Create New Recipe',
@@ -28,7 +46,7 @@ exports.createRecipe = function(req, res){
 }
 
 exports.create = function(req, res){
-	
+	console.log("ChEcK un:"+gUsername);
 	var combinePath = __dirname + '/../public/images/' + req.files.recipeImage.filename;
 	ins = fs.createReadStream(req.files.recipeImage.path);
       ous = fs.createWriteStream(combinePath);
@@ -41,7 +59,7 @@ exports.create = function(req, res){
 			var r = new Recipe({fn: req.body.fn, images: [new Image({url:"/images/"+req.files.recipeImage.filename})], updated_at: Date.now()});
 			if(req.body.instructions != "") r.instructions = req.body.instructions;
 			if(req.body.yield != "") r.yield = req.body.yield;
-			console.log(req.body);
+			r.username = gUsername;
 			r.ingredients = [];
 			for(var i = 0; i<req.body.value.length; i++){
 				var ing = new Ingredient({value: req.body.value[i], unit: req.body.unit[i], ingredient: req.body.ingredient[i]});
@@ -55,8 +73,8 @@ exports.create = function(req, res){
 			if(req.body.rating != "") r.rating = req.body.rating;
 			r.save(function(err, recipe, count){
 			var beginName = req.files.recipeImage.filename.replace(/\.[^/.]+$/, "");
-			//console.log('../public/images/'+req.files.recipeImage.filename);
-			//console.log('../public/images/'+beginName+"-small.jpg");
+			//console.log(req.files.recipeImage);
+			//console.log(req.files.recipeImage.filename);
 			/*im.resize({
 			  srcPath: req.files.recipeImage.filename,
 			  dstPath: beginName+"-small.jpg",
@@ -66,7 +84,7 @@ exports.create = function(req, res){
 			  console.log('resized kittens.jpg to fit within 256x256px');
 			});	*/
 			
-				res.redirect('/');
+				res.redirect('/index');
 			});
         }
     });

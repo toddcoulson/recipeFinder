@@ -1,6 +1,9 @@
-<h1><%= title %></h1>
+<link rel="stylesheet" href="stylesheets/skeleton.css">
+<link rel="stylesheet" href="stylesheets/layout.css">
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<h1><%= title %></h1>
+
 <script src="../javascripts/jquery.view.ejs.js"></script>
 <script>
 	$(function() {
@@ -14,17 +17,28 @@
 		
 	});
 </script>
+<div class="container">
+<p>
+
 <form action="/create" method="post" accept charset="utf-8"method="post" enctype="multipart/form-data">
-	Recipe Name:<input type="text" name="fn" /><br />
-	<a href="javascript:void(0)" id="addIngredient">add ingredient</a>
-	Instructions:<input type="text" name="instructions" /><br />
-	Yield:<input type="text" name="yield" /><br />
-	Duration:<input type="text" name="duration" /><br />
-	photo: <input type='file' name='recipeImage'/>
-	video: <!--upload video here>add photo</upload><add video location></add video location-->
-	summary:<input type="text" name="summary" /><br />
-	published:<input type="text" name="published" /><br />
-	tag:<input type="text" name="tag" /><br />
-	rating:<input type="text" name="rating" /><br />
-	<input type="submit" name="submit" value="Go" />
+	
+		Recipe Name:<input type="text" name="fn" /><br />
+		<a href="javascript:void(0)" id="addIngredient">add ingredient</a><br />
+		Instructions:<input type="text" name="instructions" /><br />
+		Yield:<input type="text" name="yield" /><br />
+	
+	
+		Duration:<input type="text" name="duration" /><br />
+		photo: <input type='file' name='recipeImage'/>
+		video: <!--upload video here>add photo</upload><add video location></add video location-->
+		summary:<input type="text" name="summary" /><br />
+	
+		published:<input type="text" name="published" /><br />
+		tag:<input type="text" name="tag" /><br />
+		rating:<input type="text" name="rating" /><br />
+		<input type="submit" name="submit" value="Go" />
+	
 </form>
+
+</p>
+</div>
